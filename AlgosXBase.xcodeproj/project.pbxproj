@@ -16,6 +16,22 @@
 		0EA4D8F71680C08B00FD3B5F /* libAlgosXBase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EA4D8DE1680C08B00FD3B5F /* libAlgosXBase.a */; };
 		0EA4D8FD1680C08B00FD3B5F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0EA4D8FB1680C08B00FD3B5F /* InfoPlist.strings */; };
 		0EA4D9001680C08B00FD3B5F /* AlgosXBaseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D8FF1680C08B00FD3B5F /* AlgosXBaseTests.m */; };
+		0EA4D9131680C0D600FD3B5F /* AFormInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D90A1680C0D600FD3B5F /* AFormInfoController.m */; };
+		0EA4D9141680C0D600FD3B5F /* AlgosBorderLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D90C1680C0D600FD3B5F /* AlgosBorderLabel.m */; };
+		0EA4D9151680C0D600FD3B5F /* AlgosLibPList.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D90E1680C0D600FD3B5F /* AlgosLibPList.m */; };
+		0EA4D9161680C0D600FD3B5F /* AlgosLibUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D9101680C0D600FD3B5F /* AlgosLibUtil.m */; };
+		0EA4D9171680C0D600FD3B5F /* AlgosLibView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D9121680C0D600FD3B5F /* AlgosLibView.m */; };
+		0EA4D9241680C0F200FD3B5F /* ATableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D9191680C0F200FD3B5F /* ATableController.m */; };
+		0EA4D9251680C0F200FD3B5F /* ATableDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D91B1680C0F200FD3B5F /* ATableDetailController.m */; };
+		0EA4D9261680C0F200FD3B5F /* ATableLabelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D91D1680C0F200FD3B5F /* ATableLabelController.m */; };
+		0EA4D9271680C0F200FD3B5F /* ATableOpzioniController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D91F1680C0F200FD3B5F /* ATableOpzioniController.m */; };
+		0EA4D9281680C0F200FD3B5F /* Const.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D9211680C0F200FD3B5F /* Const.m */; };
+		0EA4D9291680C0F200FD3B5F /* Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D9231680C0F200FD3B5F /* Debug.m */; };
+		0EA4D92C1680C10000FD3B5F /* DescVal.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D92B1680C10000FD3B5F /* DescVal.m */; };
+		0EA4D9311680C15100FD3B5F /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D92E1680C15100FD3B5F /* Request.m */; };
+		0EA4D9321680C15100FD3B5F /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D92E1680C15100FD3B5F /* Request.m */; };
+		0EA4D9331680C15100FD3B5F /* UIBorderLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D9301680C15100FD3B5F /* UIBorderLabel.m */; };
+		0EA4D9341680C15100FD3B5F /* UIBorderLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D9301680C15100FD3B5F /* UIBorderLabel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +70,34 @@
 		0EA4D8FC1680C08B00FD3B5F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0EA4D8FE1680C08B00FD3B5F /* AlgosXBaseTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlgosXBaseTests.h; sourceTree = "<group>"; };
 		0EA4D8FF1680C08B00FD3B5F /* AlgosXBaseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AlgosXBaseTests.m; sourceTree = "<group>"; };
+		0EA4D9091680C0D600FD3B5F /* AFormInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFormInfoController.h; sourceTree = "<group>"; };
+		0EA4D90A1680C0D600FD3B5F /* AFormInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFormInfoController.m; sourceTree = "<group>"; };
+		0EA4D90B1680C0D600FD3B5F /* AlgosBorderLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlgosBorderLabel.h; sourceTree = "<group>"; };
+		0EA4D90C1680C0D600FD3B5F /* AlgosBorderLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlgosBorderLabel.m; sourceTree = "<group>"; };
+		0EA4D90D1680C0D600FD3B5F /* AlgosLibPlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlgosLibPlist.h; sourceTree = "<group>"; };
+		0EA4D90E1680C0D600FD3B5F /* AlgosLibPList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlgosLibPList.m; sourceTree = "<group>"; };
+		0EA4D90F1680C0D600FD3B5F /* AlgosLibUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlgosLibUtil.h; sourceTree = "<group>"; };
+		0EA4D9101680C0D600FD3B5F /* AlgosLibUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlgosLibUtil.m; sourceTree = "<group>"; };
+		0EA4D9111680C0D600FD3B5F /* AlgosLibView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlgosLibView.h; sourceTree = "<group>"; };
+		0EA4D9121680C0D600FD3B5F /* AlgosLibView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlgosLibView.m; sourceTree = "<group>"; };
+		0EA4D9181680C0F200FD3B5F /* ATableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATableController.h; sourceTree = "<group>"; };
+		0EA4D9191680C0F200FD3B5F /* ATableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATableController.m; sourceTree = "<group>"; };
+		0EA4D91A1680C0F200FD3B5F /* ATableDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATableDetailController.h; sourceTree = "<group>"; };
+		0EA4D91B1680C0F200FD3B5F /* ATableDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATableDetailController.m; sourceTree = "<group>"; };
+		0EA4D91C1680C0F200FD3B5F /* ATableLabelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATableLabelController.h; sourceTree = "<group>"; };
+		0EA4D91D1680C0F200FD3B5F /* ATableLabelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATableLabelController.m; sourceTree = "<group>"; };
+		0EA4D91E1680C0F200FD3B5F /* ATableOpzioniController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATableOpzioniController.h; sourceTree = "<group>"; };
+		0EA4D91F1680C0F200FD3B5F /* ATableOpzioniController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATableOpzioniController.m; sourceTree = "<group>"; };
+		0EA4D9201680C0F200FD3B5F /* Const.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Const.h; sourceTree = "<group>"; };
+		0EA4D9211680C0F200FD3B5F /* Const.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Const.m; sourceTree = "<group>"; };
+		0EA4D9221680C0F200FD3B5F /* Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Debug.h; sourceTree = "<group>"; };
+		0EA4D9231680C0F200FD3B5F /* Debug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Debug.m; sourceTree = "<group>"; };
+		0EA4D92A1680C10000FD3B5F /* DescVal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DescVal.h; sourceTree = "<group>"; };
+		0EA4D92B1680C10000FD3B5F /* DescVal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DescVal.m; sourceTree = "<group>"; };
+		0EA4D92D1680C15100FD3B5F /* Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Request.h; sourceTree = "<group>"; };
+		0EA4D92E1680C15100FD3B5F /* Request.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Request.m; sourceTree = "<group>"; };
+		0EA4D92F1680C15100FD3B5F /* UIBorderLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBorderLabel.h; sourceTree = "<group>"; };
+		0EA4D9301680C15100FD3B5F /* UIBorderLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIBorderLabel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,8 +155,34 @@
 		0EA4D8E31680C08B00FD3B5F /* AlgosXBase */ = {
 			isa = PBXGroup;
 			children = (
-				0EA4D8E61680C08B00FD3B5F /* AlgosXBase.h */,
-				0EA4D8E81680C08B00FD3B5F /* AlgosXBase.m */,
+				0EA4D9091680C0D600FD3B5F /* AFormInfoController.h */,
+				0EA4D90A1680C0D600FD3B5F /* AFormInfoController.m */,
+				0EA4D90B1680C0D600FD3B5F /* AlgosBorderLabel.h */,
+				0EA4D90C1680C0D600FD3B5F /* AlgosBorderLabel.m */,
+				0EA4D90D1680C0D600FD3B5F /* AlgosLibPlist.h */,
+				0EA4D90E1680C0D600FD3B5F /* AlgosLibPList.m */,
+				0EA4D90F1680C0D600FD3B5F /* AlgosLibUtil.h */,
+				0EA4D9101680C0D600FD3B5F /* AlgosLibUtil.m */,
+				0EA4D9111680C0D600FD3B5F /* AlgosLibView.h */,
+				0EA4D9121680C0D600FD3B5F /* AlgosLibView.m */,
+				0EA4D9181680C0F200FD3B5F /* ATableController.h */,
+				0EA4D9191680C0F200FD3B5F /* ATableController.m */,
+				0EA4D91A1680C0F200FD3B5F /* ATableDetailController.h */,
+				0EA4D91B1680C0F200FD3B5F /* ATableDetailController.m */,
+				0EA4D91C1680C0F200FD3B5F /* ATableLabelController.h */,
+				0EA4D91D1680C0F200FD3B5F /* ATableLabelController.m */,
+				0EA4D91E1680C0F200FD3B5F /* ATableOpzioniController.h */,
+				0EA4D91F1680C0F200FD3B5F /* ATableOpzioniController.m */,
+				0EA4D9201680C0F200FD3B5F /* Const.h */,
+				0EA4D9211680C0F200FD3B5F /* Const.m */,
+				0EA4D9221680C0F200FD3B5F /* Debug.h */,
+				0EA4D9231680C0F200FD3B5F /* Debug.m */,
+				0EA4D92A1680C10000FD3B5F /* DescVal.h */,
+				0EA4D92B1680C10000FD3B5F /* DescVal.m */,
+				0EA4D92D1680C15100FD3B5F /* Request.h */,
+				0EA4D92E1680C15100FD3B5F /* Request.m */,
+				0EA4D92F1680C15100FD3B5F /* UIBorderLabel.h */,
+				0EA4D9301680C15100FD3B5F /* UIBorderLabel.m */,
 				0EA4D8E41680C08B00FD3B5F /* Supporting Files */,
 			);
 			path = AlgosXBase;
@@ -121,6 +191,8 @@
 		0EA4D8E41680C08B00FD3B5F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0EA4D8E61680C08B00FD3B5F /* AlgosXBase.h */,
+				0EA4D8E81680C08B00FD3B5F /* AlgosXBase.m */,
 				0EA4D8E51680C08B00FD3B5F /* AlgosXBase-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -244,6 +316,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EA4D8E91680C08B00FD3B5F /* AlgosXBase.m in Sources */,
+				0EA4D9311680C15100FD3B5F /* Request.m in Sources */,
+				0EA4D9331680C15100FD3B5F /* UIBorderLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,6 +326,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EA4D9001680C08B00FD3B5F /* AlgosXBaseTests.m in Sources */,
+				0EA4D9131680C0D600FD3B5F /* AFormInfoController.m in Sources */,
+				0EA4D9141680C0D600FD3B5F /* AlgosBorderLabel.m in Sources */,
+				0EA4D9151680C0D600FD3B5F /* AlgosLibPList.m in Sources */,
+				0EA4D9161680C0D600FD3B5F /* AlgosLibUtil.m in Sources */,
+				0EA4D9171680C0D600FD3B5F /* AlgosLibView.m in Sources */,
+				0EA4D9241680C0F200FD3B5F /* ATableController.m in Sources */,
+				0EA4D9251680C0F200FD3B5F /* ATableDetailController.m in Sources */,
+				0EA4D9261680C0F200FD3B5F /* ATableLabelController.m in Sources */,
+				0EA4D9271680C0F200FD3B5F /* ATableOpzioniController.m in Sources */,
+				0EA4D9281680C0F200FD3B5F /* Const.m in Sources */,
+				0EA4D9291680C0F200FD3B5F /* Debug.m in Sources */,
+				0EA4D92C1680C10000FD3B5F /* DescVal.m in Sources */,
+				0EA4D9321680C15100FD3B5F /* Request.m in Sources */,
+				0EA4D9341680C15100FD3B5F /* UIBorderLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
