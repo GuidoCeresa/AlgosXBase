@@ -10,47 +10,36 @@
 #import "AlgosLibView.h"
 #import "AlgosLibPList.h"
 #import "AlgosBorderLabel.h"
+#import "Const.h"
 
 @implementation ATableController
 
 #pragma mark - Synthesize Variables
-@synthesize headerView;
-@synthesize footerView;
-@synthesize myData;
 @synthesize usaHeader;
 @synthesize usaFooter;
 @synthesize usaTextFooter;
 @synthesize usaViewFooter;
 @synthesize usaGrigiAlternati;
-@synthesize titolo;
-
-#pragma mark - Synthesize Variables
-@synthesize titoloFinestra;
 @synthesize nomeFilePList;
+@synthesize myData;
+@synthesize titolo;
+@synthesize titoloFinestra;
+@synthesize testoHeader;
+@synthesize testoFooter;
 
 #pragma mark - Constants
 //--Nome del campo chiave interno al NSDictionary
 static NSString *kValori = @"valori";
 
 //--Nome del campo chiave interno al NSDictionary
-static NSString *kDescrizione = @"descrizione";
+static NSString *kDescrizione = @"descrizioneProtocollo";
 
 //--costanti della classe
 static NSString *kTitoloMancante = @"manca";
 
-//--Valori di default
-static int righeHeaderDefault = 1;
-static int dimCarattereNormaleDefault = 17;
-static int dimCarattereHeaderDefault = 15;
-static int numCaratteriPerRigaDefault = 40;
-static int numCaratteriHeaderPerRigaDefault = 45;
-static int topPosizioneValori = 50; //default - modificata dall'altezza della descrizione
-static int altezzaRigaNormaleDefault2 = 24;
-static int altezzaRigaHeaderDefault = 22;
 
 #pragma mark - Local Variables
 //--testi di descrizione
-NSString *testoFooter;
 BOOL isFooter;
 
 //--dimensionamento dell'header e dello spazio occupato
@@ -87,9 +76,14 @@ UIColor *coloreBodyScuro;
     [self regolazioniIniziali];
 }
 
+
 //--regolazioni varie iniziali--
 - (void)regolazioniIniziali {
     
+    //--Colore di sfondo
+    self.tableView.backgroundView = nil;
+    [self.tableView setBackgroundColor:[Const instance].grigioCeleste];
+
     //--reset di alcuni parametri--
     [self resetInizialeParametri];
     
@@ -107,9 +101,12 @@ UIColor *coloreBodyScuro;
     //--valori delle righe--
     [self setUpValori];
 
-    //--recupera le chiavi del dizionario che sono le sezioni da mostrare
+    //--recupera le chiavi del dizionario che sono le opzione da mostrare
     //--Utilizzato solo dalla sottoclasse ATableOpzioni
-    [self setUpSezioni];
+    [self setUpOpzioni];
+
+    //--Regola inizialmente il testo selezionato di ogni opzione
+    [self setUpTestoOpzioni];
 
     //--recupera i valori di tutti i parametri
     //--Utilizzato solo dalla sottoclasse ATableOpzioni
@@ -133,10 +130,9 @@ UIColor *coloreBodyScuro;
     return [myData count];
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    	  return [myData objectAtIndex:section];
-}
 
+
+#pragma mark - Table view sections header
 // Custom view for header. Will be adjusted to default or specified header height
 // Notice: this will work only for one section within the table view
 //--le righe vengono calcolate in base alla lunghezza del testo
@@ -170,6 +166,7 @@ UIColor *coloreBodyScuro;
 }
 
 
+#pragma mark - Table view sections footer
 // custom view for footer. will be adjusted to default or specified footer height
 // Notice: this will work only for one section within the table view
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
@@ -294,22 +291,6 @@ UIColor *coloreBodyScuro;
     [self setTestoHeader:descrizione];
 }
 
-//--recupera le chiavi del dizionario che sono le sezioni da mostrare
-//--Utilizzato solo dalla sottoclasse ATableOpzioni
-- (void)setUpSezioni {
-}
-
-//--utilizzo dei numeri
-//--numero iniziale: zero o uno di solito
-//--Utilizzato solo dalla sottoclasse ATableLabel 
-- (void)setUpNumeri {
-}
-
-//--recupera i valori di tutti i parametri
-//--Utilizzato solo dalla sottoclasse ATableOpzioni
-- (void)setUpParametri {
-}
-
 //--recupera l'array dei valori dalla pList--
 //--regola la variabile d'istanza della superclasse--
 - (void)setUpValori {
@@ -321,6 +302,34 @@ UIColor *coloreBodyScuro;
     }
     myData = listaValori;
 }
+
+
+//--recupera le chiavi del dizionario che sono le opzioni da mostrare
+//--Utilizzato solo dalla sottoclasse ATableOpzioni
+- (void)setUpOpzioni {
+}
+
+//--Recupera le chiavi del dizionario che sono le opzioni da mostrare
+//--Utilizzato solo dalla sottoclasse ATableOpzioni
+//--Presuppone che lo schema della pList sia costituito da:
+//--n dizionari (opzioni), ognuno contenente n dizionari (parametri)
+//--L'ordine non è garantito
+- (void)setUpTestoOpzioni {
+}
+
+
+//--recupera i valori di tutti i parametri
+//--Utilizzato solo dalla sottoclasse ATableOpzioni
+- (void)setUpParametri {
+}
+
+//--utilizzo dei numeri
+//--numero iniziale: zero o uno di solito
+//--Utilizzato solo dalla sottoclasse ATableLabel
+- (void)setUpNumeri {
+}
+
+
 
 
 //--recupera il dictionary dalla pList--

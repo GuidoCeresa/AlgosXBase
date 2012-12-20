@@ -42,7 +42,6 @@ UIColor *grigioCeleste;
 #pragma mark - Utility methods
 //--recupera la pagina web
 - (void)setUpWeb {
-    //nomeInfoFile = @"asa";
     NSString *domain = @"http://www.algos.it/118/file/";
     domain = [domain stringByAppendingString:nomeInfoFile];
     domain = [domain stringByAppendingString:@".html"];

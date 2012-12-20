@@ -18,43 +18,62 @@
 
 @end
 
+//--Costruisce una tavola con n opzioni ognuna dei quali rimanda ad una serie di parametri
 //--Tavola che utilizza i metodi e le regolazioni di default della superclasse
-//--Costruisce una tavola con n sezioni ognuna dei quali rimanda ad una serie di opzioni
-//--Le opzioni vengono presentate in una sotto-Tavola
+//--I parametri vengono presentati in una sotto-Tavola
 //--Aggiunge il titolo (obbligatorio)
 //--Aggiunge un header (opzionale)
 @implementation ATableOpzioniController
 
 
 #pragma mark - Synthesize Variables
-//--nomi delle sezioni = chiavi ordinate del dizionario parametri
-@synthesize sezioni;
+//--nomi delle opzioni = chiavi ordinate del dizionario parametri
+@synthesize opzioni;
+
+//--testo selezionato di ogni opzione
+@synthesize testoOpzioni;
+
+//--valore selezionato di ogni opzione
+@synthesize valoreOpzioni;
 
 //--valori di tutti i parametri e delle opzioni per ciascuno
 @synthesize parametri;
-
-//--testo selezionato di ogni sezione
-@synthesize testoSezioni;
 
 
 #pragma mark - Constants
 //--Nome del campo chiave interno al NSDictionary
 static NSString *kValori = @"valori";
+static NSString *kValori2 = @"valoriOpzioniProtocollo";
 
 //--Identificatore del segue tra opzioni e la tavola specializzata, nello storyboard
 static NSString *kSegueDetail = @"segueDetail";
 
 //--Identificatore del segue tra opzioni e la web view specializzata, nello storyboard
-static NSString *kSegueInfo = @"segueInfo";
+static NSString *kSegueInfo = @"segueFormInfo";
 
 //--Nome del campo chiave interno al NSDictionary
 static NSString *kDettaglio = @"dettaglioParametro";
+
+//--Nome del campo chiave interno al NSDictionary
+static NSString *kNomeOpzione = @"nomeOpzione";
 
 //--Nome del campo chiave interno al NSDictionary
 static NSString *kNomeParametro = @"nomeParametro";
 
 //--Nome del campo chiave interno al NSDictionary
 static NSString *kValoreParametro = @"valoreParametro";
+
+//--Nome del campo chiave interno al NSDictionary
+static NSString *kValoriParametriOpzione = @"valoriParametriOpzione";
+
+//--Valore iniziale del testo dei parametri
+static NSString *kValoreVuotoIniziale = @"... ...";
+
+//--Altezza sezione footer
+static int kAltezzaFooter = 50;
+
+//--Colore del footer
+
 
 #pragma mark - Local Variables
 //--costanti della classe
@@ -63,23 +82,31 @@ int extraPrimaSezione = 10;
 int altezzaNormaleSezione = 30;
 
 
+static int kTopInset = 0;
+static int kAltLabelNomeOpzione = 25;
+static int kAltSpazioLabel = 0;
+static int kAltLabelValoreParametro = 25;
+static int kBottomInset = 5;
+int altezzaCella;
+
 #pragma mark - Init View
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //--Regola inizialmente il testo selezionato di ogni sezione
-    [self setUpTestoSezioni];
+    //--regola l'altezza della cella
+    altezzaCella = kTopInset + kAltLabelNomeOpzione + kAltSpazioLabel + kAltLabelValoreParametro + kBottomInset;
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
+}
+
 
 #pragma mark - Table view group section
-//--Return the number of sections.
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [sezioni count];
-}
-
 //--Return the number of rows in the section.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return [opzioni count];
 }
 
 #pragma mark - Table view data source
@@ -90,8 +117,9 @@ int altezzaNormaleSezione = 30;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell;
     NSString *identifier = kCellIdentifier2;
-    AlgosBorderLabel *labelText;
-    
+    UIView *cellView;
+    NSInteger riga = indexPath.row;
+
     //--se è già stata usata, recupera la cella
     cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     
@@ -100,44 +128,80 @@ int altezzaNormaleSezione = 30;
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
         
-    //--crea la label
-    labelText = [self creaLabelTesto:[indexPath section]];
-    //labelNumber = [self creaLabelNumber:indexPath.row];
+    //--crea la view
+    cellView = [self elaboraCellaWithRiga:riga];
     
-    //--attacca la label alla cella
+    //--attacca la view alla cella
     if ([cell.contentView subviews]) {
         for (UIView *subView in [cell.contentView subviews]) {
             [subView removeFromSuperview];
         }
     }
-    [cell.contentView addSubview:labelText];
-    
-    //--aggiunge un sfondo grigio alternato
-    if (indexPath.row%2 == 0) {
-        //labelText.backgroundColor = [Const instance].grigioScuro;
-        //labelNumber.backgroundColor = [Const instance].grigioScuro;
-    } else {
-        //labelText.backgroundColor = [Const instance].grigioChiaro;
-        //labelNumber.backgroundColor = [Const instance].grigioChiaro;
-    }
-    
+    [cell.contentView addSubview:cellView];
+        
     //--restituisce al sistema la cella configurata
     return cell;
 }
 
-//--crea la label
-- (AlgosBorderLabel *)creaLabelTesto:(int)indiceSezione {
-    AlgosBorderLabel *label;
-    NSString *testo;
-    CGRect labelFrame = CGRectMake(10, 0, 320, 30);
+//--Elabora la view interna della cella
+//--Recupera i valori della descrizione della opzione e del valore corrente del parametro eventualmente selezionato
+//--Disegna la view
+- (UIView *)elaboraCellaWithRiga:(int)riga {
+    UIView *cellView;
+    NSString *opzione;
+    NSString *valoreParametro;
+
+    opzione = [opzioni objectAtIndex:riga];
+    valoreParametro = [testoOpzioni objectAtIndex:riga];
+    cellView = [self disegnaCellaForOpzione:opzione opzione:valoreParametro];
+    return cellView;
+}
+
+//--Disegna la view interna della cella
+//--Sfondo trasparente
+//--Descrizione in grassetto della opzione
+//--Campo edit col valore selezionato del parametro corrente
+- (UIView *)disegnaCellaForOpzione:(NSString *)opzione opzione:(NSString *)valoreParametro {
+    UIView *cellView = [[UIView alloc] init];
+    AlgosBorderLabel *labelOpzione;
+    AlgosBorderLabel *labelParametro;
+
+    labelOpzione = [self creaLabelOpzione:opzione];
+    labelParametro = [self creaLabelParametro:valoreParametro];
+    [cellView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+    [cellView addSubview:labelOpzione];
+    [cellView addSubview:labelParametro];
     
-    testo = [testoSezioni objectAtIndex:indiceSezione];
+    return cellView;
+}
+
+//--Crea la label per la descrizione della opzione
+- (AlgosBorderLabel *)creaLabelOpzione:(NSString *)testo {
+    AlgosBorderLabel *label;
+    CGRect labelFrame = CGRectMake(10, kTopInset, 280, kAltLabelNomeOpzione);
+    
     label = [[AlgosBorderLabel alloc] initWithFrame:labelFrame];
     [label setBackgroundColor:[UIColor clearColor]];
+    //[label setBackgroundColor:[UIColor greenColor]];
     label.textAlignment = NSTextAlignmentLeft;
-    [label setFont:[UIFont systemFontOfSize:15.0]];
+    [label setFont:[UIFont boldSystemFontOfSize:17.0]];
     [label setText:testo];
-        
+    
+    return label;
+}
+
+//--Crea la label per il valore del parametro
+- (AlgosBorderLabel *)creaLabelParametro:(NSString *)testo {
+    AlgosBorderLabel *label;
+    CGRect labelFrame = CGRectMake(10, kTopInset + kAltLabelNomeOpzione + kAltSpazioLabel, 280, kAltLabelValoreParametro);
+    
+    label = [[AlgosBorderLabel alloc] initWithFrame:labelFrame];
+    [label setBackgroundColor:[UIColor clearColor]];
+    //[label setBackgroundColor:[UIColor redColor]];
+    label.textAlignment = NSTextAlignmentLeft;
+    [label setFont:[UIFont italicSystemFontOfSize:15.0]];
+    [label setText:testo];
+    
     return label;
 }
 
@@ -145,74 +209,157 @@ int altezzaNormaleSezione = 30;
 //--utilizza (tramite delega) lo stesso metodo usato per dimensionare la label della cella
 //--calcola l'altezza esatta della label che contiene il testo
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return altezzaNormaleSezione;
+    return altezzaCella;
 }
 
-#pragma mark - Table view sections header
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-   // return [myData objectAtIndex:section];
-    //For each section, you must return here it's label
-    if(section == 0) {
-    }
-    return [sezioni objectAtIndex:section];
-}
+//#pragma mark - Table view sections header
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+//   // return [myData objectAtIndex:section];
+//    //For each section, you must return here it's label
+//    if(section == 0) {
+//    }
+//    return [sezioni objectAtIndex:section];
+//}
+//
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+//    AlgosBorderLabel *label;
+//    NSString *titoloSezione;
+//    AlgosBorderLabel *labelDesc;
+//    labelDesc = [AlgosLibView creaLabelWithTesto:testoHeader];
+//    int altDescrizione = labelDesc.frame.size.height;
+//
+//    CGRect firstLabelFrame = CGRectMake(0, altDescrizione + extraPrimaSezione, 320, altezzaNormaleSezione);
+//    CGRect normalLabelFrame = CGRectMake(0, 0, 320, altezzaNormaleSezione);
+//    CGRect currentLabelFrame;
+//    CGRect firstViewFrame = CGRectMake(0, 0, 320, altezzaNormaleSezione + altDescrizione + extraPrimaSezione);
+//    CGRect normalViewFrame = CGRectMake(0, 0, 320, altezzaNormaleSezione);
+//    CGRect currentViewFrame;
+//
+//    if (section == 0) {
+//        currentLabelFrame = firstLabelFrame;
+//        currentViewFrame = firstViewFrame;
+//    } else {
+//        currentLabelFrame = normalLabelFrame;
+//        currentViewFrame = normalViewFrame;
+//    }
+//    
+//    //--recupera il testo per questa riga/cella, dai dati
+//    titoloSezione = [sezioni objectAtIndex:section];
+//
+//    label = [[AlgosBorderLabel alloc] initWithFrameInsetDefault:currentLabelFrame];
+//    [label setBackgroundColor:[UIColor clearColor]];
+//    label.textAlignment = NSTextAlignmentLeft;
+//    [label setFont:[UIFont boldSystemFontOfSize:17.0]];
+//    [label setText:titoloSezione];
+//    //label.backgroundColor = [UIColor yellowColor];
+//    UIView *view = [[UIView alloc] initWithFrame:currentViewFrame];
+//    [view setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+//    
+//    if (section == 0) {
+//        [view addSubview:labelDesc];
+//    }
+//    [view addSubview:label];
+//
+//    //view.backgroundColor = [UIColor redColor];
+//    return view;
+//}
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+//    if (section == 0) {
+//       return altezzaNormaleSezione + [AlgosLibView altezzaLabelWithTesto:testoHeader] + extraPrimaSezione;
+//    } else {
+//        return altezzaNormaleSezione;
+//    }
+//}
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    AlgosBorderLabel *label;
-    NSString *titoloSezione;
-    AlgosBorderLabel *labelDesc;
-    labelDesc = [AlgosLibView creaLabelWithTesto:testoHeader];
-    int altDescrizione = labelDesc.frame.size.height;
 
-    CGRect firstLabelFrame = CGRectMake(0, altDescrizione + extraPrimaSezione, 320, altezzaNormaleSezione);
-    CGRect normalLabelFrame = CGRectMake(0, 0, 320, altezzaNormaleSezione);
-    CGRect currentLabelFrame;
-    CGRect firstViewFrame = CGRectMake(0, 0, 320, altezzaNormaleSezione + altDescrizione + extraPrimaSezione);
-    CGRect normalViewFrame = CGRectMake(0, 0, 320, altezzaNormaleSezione);
-    CGRect currentViewFrame;
 
-    if (section == 0) {
-        currentLabelFrame = firstLabelFrame;
-        currentViewFrame = firstViewFrame;
-    } else {
-        currentLabelFrame = normalLabelFrame;
-        currentViewFrame = normalViewFrame;
-    }
+#pragma mark - Table view sections footer
+// custom view for footer. will be adjusted to default or specified footer height
+// Notice: this will work only for one section within the table view
+//--Elabora il footer
+//--All'apertura della finestra deve essere vuoto
+//--Le opzioni devono avere TUTTE un valore; altrimenti mostra un messaggio di avviso (dopo aver selezionato almeno un parametro)
+//--Se ci sono tutti i valori delle opzioni, calcola la somma ed elabora la risposta ed il colore del messaggio
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    UIView *localFooterView;
+    NSArray *array = testoOpzioni;
     
-    //--recupera il testo per questa riga/cella, dai dati
-    titoloSezione = [sezioni objectAtIndex:section];
-
-    label = [[AlgosBorderLabel alloc] initWithFrameInsetDefault:currentLabelFrame];
-    [label setBackgroundColor:[UIColor clearColor]];
-    label.textAlignment = NSTextAlignmentLeft;
-    [label setFont:[UIFont boldSystemFontOfSize:17.0]];
-    [label setText:titoloSezione];
-    //label.backgroundColor = [UIColor yellowColor];
-    UIView *view = [[UIView alloc] initWithFrame:currentViewFrame];
-    [view setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-    
-    if (section == 0) {
-        [view addSubview:labelDesc];
+    if ([self isArrayIniziale:array]) {
+        localFooterView = [self footerViewIniziale];
+    } else {
+        if ([self isArrayCompleto:array]) {
+            localFooterView = [self footerViewCompletaForFile:nomeFilePList];
+        } else {
+            localFooterView = [self footerViewParziale];
+        }
     }
-    [view addSubview:label];
-
-    //view.backgroundColor = [UIColor redColor];
-    return view;
+        
+    //return the view for the footer
+    return localFooterView;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
-       return altezzaNormaleSezione + [AlgosLibView altezzaLabelWithTesto:testoHeader] + extraPrimaSezione;
+- (UIView *)footerViewWithTesto:(NSString *)testo colore:(UIColor *)colore font:(UIFont *)font {
+    UIView *localFooterView;
+    CGRect labelFrame;
+    AlgosBorderLabel* label;
+    int topInset = 10;
+    int lar = 220;
+    
+    localFooterView  = [[UIView alloc] init];
+    labelFrame = CGRectMake((320 - lar)/2, topInset, lar, kAltezzaFooter - topInset);
+    label = [[AlgosBorderLabel alloc] initWithFrame:labelFrame];
+    label.numberOfLines = 1;
+    [label setFont:font];
+    label.textAlignment = NSTextAlignmentCenter;
+    [label setText:testo];
+    if (colore) {
+        [label setBackgroundColor:colore];
     } else {
-        return altezzaNormaleSezione;
+        [label setBackgroundColor:[Const instance].grigioCeleste];
     }
+    [localFooterView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+    [localFooterView addSubview:label];
+    
+    return localFooterView;
+}
+
+- (UIView *)footerViewIniziale {
+    UIView *localFooterView;
+    NSString *testo = @"";
+    UIColor *colore = nil;
+    UIFont *font = [UIFont systemFontOfSize:15];
+    
+    localFooterView = [self footerViewWithTesto:testo colore:colore font:font];
+    
+    return localFooterView;
+}
+
+- (UIView *)footerViewParziale {
+    UIView *localFooterView;
+    NSString *testo = @"Completa i valori di tutte le opzioni";
+    UIColor *colore = nil;
+    UIFont *font = [UIFont italicSystemFontOfSize:13];
+    
+    localFooterView = [self footerViewWithTesto:testo colore:colore font:font];
+    
+    return localFooterView;
+}
+
+- (UIView *)footerViewCompletaForFile:nomeFilePList {
+    return nil;
+}
+
+//--Regola l'altezza della sezione footer. Se non usa il footer, viene messa a zero
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return kAltezzaFooter;
 }
 
 #pragma mark - Table Edit
 //--selezionata una riga della tabella--
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {    
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     @try {
-  //    [self.navigationController performSegueWithIdentifier:kSegueDetail sender:nil];
+        //    [self.navigationController performSegueWithIdentifier:kSegueDetail sender:nil];
     }
     @catch (NSException * e) {
         NSLog(@"Exception: %@", e);
@@ -237,39 +384,28 @@ int altezzaNormaleSezione = 30;
 //--dopo aver selezionato il segue, passa di qui per eventuali regolazioni--
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-    NSInteger riga = indexPath.section;
-    NSString *nomeSezione;
-    NSDictionary *dictParametri;
+    NSInteger riga = indexPath.row;
+    NSString *nomeOpzione;
     NSMutableArray *arrayOpzioniTmp = [[NSMutableArray alloc] init];
     DescVal *descVal;
-    NSObject *obj;
-    NSDictionary *dicOpzione;
-    NSString *key;
-    NSString *val;
+    NSDictionary *dicSingolaOpzione;
     NSString *valoreSelezionato;
+    NSArray *arrayDizionariParametri;
     
     if ([[segue identifier] isEqualToString:kSegueDetail]) {
-        nomeSezione = [sezioni objectAtIndex:riga];
-        dicOpzione = [parametri objectForKey:nomeSezione];
-        valoreSelezionato = [testoSezioni objectAtIndex:riga];
+        nomeOpzione = [opzioni objectAtIndex:riga];
+        valoreSelezionato = [testoOpzioni objectAtIndex:riga];
+        dicSingolaOpzione = [parametri objectForKey:nomeOpzione];
         
-        for (obj in dicOpzione) {
-            if ([obj isKindOfClass:[DescVal class]]) {
-                descVal = (DescVal *)obj;
-                [arrayOpzioniTmp addObject:descVal];
+        if (dicSingolaOpzione) {
+            if ([dicSingolaOpzione objectForKey:kValoriParametriOpzione]) {
+                arrayDizionariParametri = [dicSingolaOpzione objectForKey:kValoriParametriOpzione];
             }
-            if ([obj isKindOfClass:[NSString class]]) {
+        }
+        
+        if (arrayDizionariParametri) {
+            for (NSDictionary *dictParametri in arrayDizionariParametri) {
                 descVal = [[DescVal alloc] init];
-                key = (NSString *)obj;
-                val = [dicOpzione objectForKey:key];
-                descVal.descrizione = key;
-                //descVal.valore = [[NSNumber alloc] initWithInt:[val integerValue]];
-                descVal.detail = val;
-                [arrayOpzioniTmp addObject:descVal];
-            }
-            if ([obj isKindOfClass:[NSDictionary class]]) {
-                descVal = [[DescVal alloc] init];
-                dictParametri = (NSDictionary *)obj;
                 if ([dictParametri objectForKey:kNomeParametro]) {
                     descVal.descrizione = [dictParametri objectForKey:kNomeParametro];
                 }
@@ -281,11 +417,40 @@ int altezzaNormaleSezione = 30;
                 }
                 [arrayOpzioniTmp addObject:descVal];
             }
-            descVal.check = false;
-       }
+        }
+//        for (obj in dicOpzione) {
+//            if ([obj isKindOfClass:[DescVal class]]) {
+//                descVal = (DescVal *)obj;
+//                [arrayOpzioniTmp addObject:descVal];
+//            }
+//            if ([obj isKindOfClass:[NSString class]]) {
+//                descVal = [[DescVal alloc] init];
+//                key = (NSString *)obj;
+//                val = [dicOpzione objectForKey:key];
+//                descVal.descrizione = key;
+//                //descVal.valore = [[NSNumber alloc] initWithInt:[val integerValue]];
+//                descVal.detail = val;
+//                [arrayOpzioniTmp addObject:descVal];
+//            }
+//            if ([obj isKindOfClass:[NSDictionary class]]) {
+//                descVal = [[DescVal alloc] init];
+//                dictParametri = (NSDictionary *)obj;
+//                if ([dictParametri objectForKey:kNomeParametro]) {
+//                    descVal.descrizione = [dictParametri objectForKey:kNomeParametro];
+//                }
+//                if ([dictParametri objectForKey:kDettaglio]) {
+//                    descVal.detail = [dictParametri objectForKey:kDettaglio];
+//                }
+//                if ([dictParametri objectForKey:kValoreParametro]) {
+//                    descVal.valore = [dictParametri objectForKey:kValoreParametro];
+//                }
+//                [arrayOpzioniTmp addObject:descVal];
+//            }
+//            descVal.check = false;
+//       }
 
         ATableDetailController *destViewController = segue.destinationViewController;
-        destViewController.titoloFinestra = nomeSezione;
+        destViewController.titoloFinestra = nomeOpzione;
         destViewController.opzioni= arrayOpzioniTmp;
         destViewController.valoreSelezionato = valoreSelezionato;
         destViewController.delegate = self;
@@ -302,52 +467,121 @@ int altezzaNormaleSezione = 30;
 - (void)detailViewTerminated:(NSString *)valoreSelezionato {
     NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
     NSInteger riga = indexPath.row;
-    [testoSezioni replaceObjectAtIndex:riga withObject:valoreSelezionato];
-    [self.tableView reloadData];
+    [testoOpzioni replaceObjectAtIndex:riga withObject:valoreSelezionato];
+  //  [valoreOpzioni replaceObjectAtIndex:riga withObject:2];
+    //[self elaboraFooter];
 }
 
 #pragma mark - Utility methods
+//--Recupera la somma dei valori di ogni opzione
+- (int)getValoreOpzioni {
+    int somma = 0;
+    NSString *valoreOpzione;
+    NSDictionary *dictOpzione;
+    NSDictionary *dictParametri;
+    NSArray *arrayParametri;
+    NSString *nomeParametro;
+    int valoreParametro;
+
+    if (opzioni) {
+        for (int k=0; k < [opzioni count]; k++) {
+            valoreOpzione = [testoOpzioni objectAtIndex:k];
+            if ([parametri objectForKey:[opzioni objectAtIndex:k]]) {
+                dictOpzione = [parametri objectForKey:[opzioni objectAtIndex:k]];
+                if ([dictOpzione objectForKey:kValoriParametriOpzione]) {
+                    arrayParametri = [dictOpzione objectForKey:kValoriParametriOpzione];
+                    for (dictParametri in arrayParametri) {
+                        if ([dictParametri objectForKey:kNomeParametro]) {
+                          nomeParametro = [dictParametri objectForKey:kNomeParametro];
+                            if ([nomeParametro isEqualToString:valoreOpzione]) {
+                                valoreParametro = [[dictParametri objectForKey:kValoreParametro] intValue];
+                                somma += valoreParametro;
+                            }
+                        }
+                        
+                    }
+                }
+            }
+        }
+    }    
+    return somma;
+}
+
+
 //--reset di alcuni parametri--
 //--Utilizzato solo dalle sottoclassi
 - (void)resetInizialeParametri {
     parametri = nil;
-    sezioni = nil;
-    testoSezioni = nil;
+    opzioni = nil;
+    testoOpzioni = nil;
+    valoreOpzioni = nil;
+}
+
+#pragma mark - Utility methods
+//--Elabora il testo da mostrare nel footer--
+- (void)elaboraFooter {
+    NSString *testo;
+    
+    if (true) {
+        testo = @"pippoz";
+    } else {
+        testo = @"pippoz";
+    }
+    
+    super.testoFooter = testo;
+   // super.usaFooter = true;
+   // super.usaViewFooter = true;
 }
 
 
-//--Recupera le chiavi del dizionario che sono le sezioni da mostrare
+//--Recupera le chiavi del dizionario che sono le opzioni da mostrare
 //--Utilizzato solo dalla sottoclasse ATableOpzioni
 //--Presuppone che lo schema della pList sia costituito da:
 //--n dizionari (opzioni), ognuno contenente n dizionari (parametri)
 //--L'ordine non è garantito
-- (void)setUpSezioni {
+- (void)setUpOpzioni {
+    NSMutableArray *arrayOpzioniTmp = [[NSMutableArray alloc] init];
     NSDictionary *dictRoot = [super getDictionary];
-    NSDictionary *dictValori;
+    NSObject *obj;
+    NSArray *arrayRoot;
+    NSString *kNome = @"nomeOpzione";
+    NSString *nomeOpzione;
     
     if (dictRoot) {
-        dictValori = [dictRoot objectForKey:kValori];
-        if (dictValori) {
-            sezioni = [dictValori allKeys];
+        obj = [dictRoot objectForKey:kValori2];
+        if ([obj isKindOfClass:[NSArray class]]) {
+            arrayRoot = (NSArray *)obj;
+            for (NSDictionary *dict in arrayRoot) {
+                if ([dict objectForKey:kNome]) {
+                    nomeOpzione = [dict objectForKey:kNome];
+                    [arrayOpzioniTmp addObject:nomeOpzione];
+                }
+            }
         }
+        if ([obj isKindOfClass:[NSDictionary class]]) {
+        }
+        opzioni = arrayOpzioniTmp;
     }
 }
+
 
 //--Recupera le chiavi del dizionario che sono le sezioni da mostrare
 //--Utilizzato solo dalla sottoclasse ATableOpzioni
 //--Presuppone che lo schema della pList sia costituito da:
 //--n dizionari (opzioni), ognuno contenente n dizionari (parametri)
 //--L'ordine non è garantito
-- (void)setUpTestoSezioni {
-    testoSezioni = [[NSMutableArray alloc] init];
-    NSString *valVuoto = @"... ...";
+- (void)setUpTestoOpzioni {
+    testoOpzioni = [[NSMutableArray alloc] init];
+    valoreOpzioni = [[NSMutableArray alloc] init];
     
-    if (sezioni) {
-        for (NSString *key in sezioni) {
-            [testoSezioni addObject:valVuoto];
+    if (opzioni) {
+        for (NSString *key in opzioni) {
+            [testoOpzioni addObject:kValoreVuotoIniziale];
+            [valoreOpzioni addObject:[NSNumber numberWithInt:0]];
         }
     }
 }
+
 
 //--recupera i valori di tutti i parametri
 //--Utilizzato solo dalla sottoclasse ATableOpzioni
@@ -355,19 +589,62 @@ int altezzaNormaleSezione = 30;
 //--n dizionari (opzioni), ognuno contenente n dizionari (parametri)
 //--L'ordine non è garantito
 - (void)setUpParametri {
+    NSMutableDictionary *dictParametriTmp = [[NSMutableDictionary alloc] init];
     NSDictionary *dictRoot = [super getDictionary];
-    NSDictionary *dicValori;
-    NSArray *keys;
-    NSMutableDictionary *tempParametri = [NSMutableDictionary dictionary];
-    NSDictionary *dicOpzione;
+    NSObject *obj;
+    NSArray *arrayRoot;
+    NSString *chiave;
     
-    dicValori = [dictRoot objectForKey:kValori];
-    keys = [dicValori allKeys];
-    for (NSString *key in keys) {
-        dicOpzione = [dicValori objectForKey:key];
-        [tempParametri setObject:dicOpzione forKey:key];
+    if (dictRoot) {
+        obj = [dictRoot objectForKey:kValori2];
+        if ([obj isKindOfClass:[NSArray class]]) {
+            arrayRoot = (NSArray *)obj;
+            for (NSDictionary *dict in arrayRoot) {
+                if ([dict objectForKey:kNomeOpzione]) {
+                    chiave = [dict objectForKey:kNomeOpzione];
+                    [dictParametriTmp setObject:dict forKey:chiave];
+                }
+            }
+        }
     }
-    parametri = tempParametri;
+    parametri = dictParametriTmp;
+}
+
+//--Controlla che l'array sia vuoto (valori iniziali)
+//--Tutti i valori uguali al valore iniziale (kValoreVuoto)
+- (BOOL)isArrayIniziale:(NSArray *)array {
+    BOOL iniziale = false;
+    BOOL diverso = false;
+
+    if (array) {
+        for (NSString *chiave in array) {
+            if (![chiave isEqualToString:kValoreVuotoIniziale]) {
+                diverso = true;
+            }
+        }
+        //--se anche uno solo ha il valore iniziale, l'array non è completo di valori validi
+        iniziale = ! diverso;
+    }
+    return iniziale;
+}
+
+
+//--Controlla che l'array sia pieno (valori validi e non nulli)
+//--Tutti i valori diversi dal valore iniziale (kValoreVuoto)
+- (BOOL)isArrayCompleto:(NSArray *)array {
+    BOOL completo = false;
+    BOOL iniziale = false;
+    
+    if (array) {
+        for (NSString *chiave in array) {
+            if ([chiave isEqualToString:kValoreVuotoIniziale]) {
+                iniziale = true;
+            }
+        }
+        //--se anche uno solo ha il valore iniziale, l'array non è completo di valori validi
+        completo = ! iniziale;
+    }
+    return completo;
 }
 
 @end

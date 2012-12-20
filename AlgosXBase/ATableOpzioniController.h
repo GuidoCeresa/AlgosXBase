@@ -14,15 +14,22 @@
 
 }
 
-//--nomi delle sezioni = chiavi ordinate del dizionario parametri
-@property (nonatomic, retain) NSArray *sezioni;
+
+//--nomi delle opzioni = chiavi ordinate del dizionario parametri
+@property (nonatomic, retain) NSArray *opzioni;
+
+//--testo selezionato di ogni opzione
+@property (nonatomic, retain) NSMutableArray *testoOpzioni;
+
+//--valore selezionato di ogni opzione
+@property (nonatomic, retain) NSMutableArray *valoreOpzioni;
 
 //--valori di tutti i parametri e delle opzioni per ciascuno
 @property (nonatomic, retain) NSDictionary *parametri;
 
-//--testo selezionato di ogni sezione
-@property (nonatomic, retain) NSMutableArray *testoSezioni;
 
 - (IBAction)openInfoScheda:(id)sender;
+- (UIView *)footerViewWithTesto:(NSString *)testo colore:(UIColor *)colore font:(UIFont *)font;
+- (int)getValoreOpzioni;
 
 @end

@@ -176,7 +176,6 @@ int larghezzaColonnaNumeri = 30;
 #pragma mark - View delegate
 //--dopo aver selezionato il segue, passa di qui per eventuali regolazioni--
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         
     if ([[segue identifier] isEqualToString:kSegueInfo]) {
         AFormInfoController *destViewController = segue.destinationViewController;

@@ -10,8 +10,6 @@
 
 @interface ATableController : UITableViewController
 {
-    IBOutlet UIView *headerView;
-    IBOutlet UIView *footerView;
     NSArray *myData;
     BOOL usaHeader;
     BOOL usaFooter;
@@ -23,10 +21,9 @@
     NSString *titoloFinestra;
     NSString *nomeFilePList;
     NSString *testoHeader;
+    NSString *testoFooter;
 }
 
-@property (nonatomic, retain) IBOutlet UIView *footerView;
-@property (nonatomic, retain) IBOutlet UIView *headerView;
 @property (nonatomic, retain) NSArray *myData;
 @property (nonatomic) BOOL usaHeader;
 @property (nonatomic) BOOL usaFooter;
@@ -38,6 +35,7 @@
 @property (nonatomic, retain) NSString *titoloFinestra;
 @property (nonatomic, retain) NSString *nomeFilePList;
 @property (nonatomic, retain) NSString *testoHeader;
+@property (nonatomic, retain) NSString *testoFooter;
 
 - (void)initVariables;
 - (void)setTestoHeader:(NSString *)testo;
