@@ -212,66 +212,6 @@ int altezzaCella;
     return altezzaCella;
 }
 
-//#pragma mark - Table view sections header
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-//   // return [myData objectAtIndex:section];
-//    //For each section, you must return here it's label
-//    if(section == 0) {
-//    }
-//    return [sezioni objectAtIndex:section];
-//}
-//
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//    AlgosBorderLabel *label;
-//    NSString *titoloSezione;
-//    AlgosBorderLabel *labelDesc;
-//    labelDesc = [AlgosLibView creaLabelWithTesto:testoHeader];
-//    int altDescrizione = labelDesc.frame.size.height;
-//
-//    CGRect firstLabelFrame = CGRectMake(0, altDescrizione + extraPrimaSezione, 320, altezzaNormaleSezione);
-//    CGRect normalLabelFrame = CGRectMake(0, 0, 320, altezzaNormaleSezione);
-//    CGRect currentLabelFrame;
-//    CGRect firstViewFrame = CGRectMake(0, 0, 320, altezzaNormaleSezione + altDescrizione + extraPrimaSezione);
-//    CGRect normalViewFrame = CGRectMake(0, 0, 320, altezzaNormaleSezione);
-//    CGRect currentViewFrame;
-//
-//    if (section == 0) {
-//        currentLabelFrame = firstLabelFrame;
-//        currentViewFrame = firstViewFrame;
-//    } else {
-//        currentLabelFrame = normalLabelFrame;
-//        currentViewFrame = normalViewFrame;
-//    }
-//    
-//    //--recupera il testo per questa riga/cella, dai dati
-//    titoloSezione = [sezioni objectAtIndex:section];
-//
-//    label = [[AlgosBorderLabel alloc] initWithFrameInsetDefault:currentLabelFrame];
-//    [label setBackgroundColor:[UIColor clearColor]];
-//    label.textAlignment = NSTextAlignmentLeft;
-//    [label setFont:[UIFont boldSystemFontOfSize:17.0]];
-//    [label setText:titoloSezione];
-//    //label.backgroundColor = [UIColor yellowColor];
-//    UIView *view = [[UIView alloc] initWithFrame:currentViewFrame];
-//    [view setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-//    
-//    if (section == 0) {
-//        [view addSubview:labelDesc];
-//    }
-//    [view addSubview:label];
-//
-//    //view.backgroundColor = [UIColor redColor];
-//    return view;
-//}
-//
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-//    if (section == 0) {
-//       return altezzaNormaleSezione + [AlgosLibView altezzaLabelWithTesto:testoHeader] + extraPrimaSezione;
-//    } else {
-//        return altezzaNormaleSezione;
-//    }
-//}
-
 
 
 #pragma mark - Table view sections footer
@@ -299,12 +239,15 @@ int altezzaCella;
     return localFooterView;
 }
 
-- (UIView *)footerViewWithTesto:(NSString *)testo colore:(UIColor *)colore font:(UIFont *)font {
+- (UIView *)footerViewWithTesto:(NSString *)testo colore:(UIColor *)colore font:(UIFont *)font dettaglio:(NSString *)dettaglio {
     UIView *localFooterView;
     CGRect labelFrame;
+    CGRect labelFrameDettaglio;
     AlgosBorderLabel* label;
+    AlgosBorderLabel* labelDettaglio;
     int topInset = 10;
-    int lar = 220;
+    int lar = 270;
+    UIFont *fontDettaglio = [font fontWithSize:15];
     
     localFooterView  = [[UIView alloc] init];
     labelFrame = CGRectMake((320 - lar)/2, topInset, lar, kAltezzaFooter - topInset);
@@ -320,6 +263,20 @@ int altezzaCella;
     }
     [localFooterView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     [localFooterView addSubview:label];
+    if (dettaglio) {
+        labelFrameDettaglio = CGRectMake((320 - lar)/2, 40, lar, 30);
+        labelDettaglio = [[AlgosBorderLabel alloc] initWithFrame:labelFrameDettaglio];
+        labelDettaglio.numberOfLines = 1;
+        [labelDettaglio setFont:fontDettaglio];
+        labelDettaglio.textAlignment = NSTextAlignmentCenter;
+        [labelDettaglio setText:dettaglio];
+        if (colore) {
+            [labelDettaglio setBackgroundColor:colore];
+        } else {
+            [labelDettaglio setBackgroundColor:[Const instance].grigioCeleste];
+        }
+        [localFooterView addSubview:labelDettaglio];
+    }
     
     return localFooterView;
 }
@@ -330,7 +287,7 @@ int altezzaCella;
     UIColor *colore = nil;
     UIFont *font = [UIFont systemFontOfSize:15];
     
-    localFooterView = [self footerViewWithTesto:testo colore:colore font:font];
+    localFooterView = [self footerViewWithTesto:testo colore:colore font:font dettaglio:nil];
     
     return localFooterView;
 }
@@ -341,7 +298,7 @@ int altezzaCella;
     UIColor *colore = nil;
     UIFont *font = [UIFont italicSystemFontOfSize:13];
     
-    localFooterView = [self footerViewWithTesto:testo colore:colore font:font];
+    localFooterView = [self footerViewWithTesto:testo colore:colore font:font dettaglio:nil];
     
     return localFooterView;
 }
@@ -418,40 +375,11 @@ int altezzaCella;
                 [arrayOpzioniTmp addObject:descVal];
             }
         }
-//        for (obj in dicOpzione) {
-//            if ([obj isKindOfClass:[DescVal class]]) {
-//                descVal = (DescVal *)obj;
-//                [arrayOpzioniTmp addObject:descVal];
-//            }
-//            if ([obj isKindOfClass:[NSString class]]) {
-//                descVal = [[DescVal alloc] init];
-//                key = (NSString *)obj;
-//                val = [dicOpzione objectForKey:key];
-//                descVal.descrizione = key;
-//                //descVal.valore = [[NSNumber alloc] initWithInt:[val integerValue]];
-//                descVal.detail = val;
-//                [arrayOpzioniTmp addObject:descVal];
-//            }
-//            if ([obj isKindOfClass:[NSDictionary class]]) {
-//                descVal = [[DescVal alloc] init];
-//                dictParametri = (NSDictionary *)obj;
-//                if ([dictParametri objectForKey:kNomeParametro]) {
-//                    descVal.descrizione = [dictParametri objectForKey:kNomeParametro];
-//                }
-//                if ([dictParametri objectForKey:kDettaglio]) {
-//                    descVal.detail = [dictParametri objectForKey:kDettaglio];
-//                }
-//                if ([dictParametri objectForKey:kValoreParametro]) {
-//                    descVal.valore = [dictParametri objectForKey:kValoreParametro];
-//                }
-//                [arrayOpzioniTmp addObject:descVal];
-//            }
-//            descVal.check = false;
-//       }
 
         ATableDetailController *destViewController = segue.destinationViewController;
         destViewController.titoloFinestra = nomeOpzione;
-        destViewController.opzioni= arrayOpzioniTmp;
+       // destViewController.opzioni= arrayOpzioniTmp;
+        destViewController.opzioni= arrayDizionariParametri;
         destViewController.valoreSelezionato = valoreSelezionato;
         destViewController.delegate = self;
     }
@@ -476,35 +404,40 @@ int altezzaCella;
 //--Recupera la somma dei valori di ogni opzione
 - (int)getValoreOpzioni {
     int somma = 0;
+
+    if (opzioni) {
+        for (int k=0; k < [opzioni count]; k++) {
+            somma += [self getValoreForOpzione:k];
+        }
+    }
+    return somma;
+}
+
+//--Recupera il valore di un parametro
+- (int)getValoreForOpzione:(int)posOpzione {
+    int valore = 0;
     NSString *valoreOpzione;
     NSDictionary *dictOpzione;
     NSDictionary *dictParametri;
     NSArray *arrayParametri;
     NSString *nomeParametro;
-    int valoreParametro;
-
-    if (opzioni) {
-        for (int k=0; k < [opzioni count]; k++) {
-            valoreOpzione = [testoOpzioni objectAtIndex:k];
-            if ([parametri objectForKey:[opzioni objectAtIndex:k]]) {
-                dictOpzione = [parametri objectForKey:[opzioni objectAtIndex:k]];
-                if ([dictOpzione objectForKey:kValoriParametriOpzione]) {
-                    arrayParametri = [dictOpzione objectForKey:kValoriParametriOpzione];
-                    for (dictParametri in arrayParametri) {
-                        if ([dictParametri objectForKey:kNomeParametro]) {
-                          nomeParametro = [dictParametri objectForKey:kNomeParametro];
-                            if ([nomeParametro isEqualToString:valoreOpzione]) {
-                                valoreParametro = [[dictParametri objectForKey:kValoreParametro] intValue];
-                                somma += valoreParametro;
-                            }
-                        }
-                        
+    
+    valoreOpzione = [testoOpzioni objectAtIndex:posOpzione];
+    if ([parametri objectForKey:[opzioni objectAtIndex:posOpzione]]) {
+        dictOpzione = [parametri objectForKey:[opzioni objectAtIndex:posOpzione]];
+        if ([dictOpzione objectForKey:kValoriParametriOpzione]) {
+            arrayParametri = [dictOpzione objectForKey:kValoriParametriOpzione];
+            for (dictParametri in arrayParametri) {
+                if ([dictParametri objectForKey:kNomeParametro]) {
+                    nomeParametro = [dictParametri objectForKey:kNomeParametro];
+                    if ([nomeParametro isEqualToString:valoreOpzione]) {
+                        valore = [[dictParametri objectForKey:kValoreParametro] intValue];
                     }
                 }
             }
         }
-    }    
-    return somma;
+    }
+    return valore;
 }
 
 

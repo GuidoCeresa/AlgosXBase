@@ -14,7 +14,6 @@
 
 }
 
-
 //--nomi delle opzioni = chiavi ordinate del dizionario parametri
 @property (nonatomic, retain) NSArray *opzioni;
 
@@ -29,7 +28,8 @@
 
 
 - (IBAction)openInfoScheda:(id)sender;
-- (UIView *)footerViewWithTesto:(NSString *)testo colore:(UIColor *)colore font:(UIFont *)font;
+- (UIView *)footerViewWithTesto:(NSString *)testo colore:(UIColor *)colore font:(UIFont *)font dettaglio:(NSString *)dettaglio;
+- (int)getValoreForOpzione:(int)posOpzione;
 - (int)getValoreOpzioni;
 
 @end

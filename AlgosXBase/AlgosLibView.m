@@ -103,7 +103,7 @@ NSNumber *larghezzaLabelNormaleDefault;
     CGFloat larghezzaEffettivaTesto;
     CGSize constraintSize;
     CGSize sizeDefinitivo;
-    CGFloat outSet = 5; //spazio ESTERNO al testo (sopra e sotto) per espandere un pochino la label in altezza
+    CGFloat outSet = 10; //spazio ESTERNO al testo (sopra e sotto) per espandere un pochino la label in altezza
     
     // Create a label (altezza provvisoria)
     labelFrame = CGRectMake(0, 0, larghezzaFloat, altezzaProvvisoriaCheVerraCambiata);
