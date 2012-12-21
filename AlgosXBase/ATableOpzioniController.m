@@ -75,18 +75,17 @@ static int kAltezzaFooter = 50;
 //--Colore del footer
 
 
-#pragma mark - Local Variables
-//--costanti della classe
-NSString *kCellIdentifier2 = @"opzioniCell";
-int extraPrimaSezione = 10;
-int altezzaNormaleSezione = 30;
-
-
+#pragma mark - Local constants
 static int kTopInset = 0;
 static int kAltLabelNomeOpzione = 25;
 static int kAltSpazioLabel = 0;
 static int kAltLabelValoreParametro = 25;
 static int kBottomInset = 5;
+
+#pragma mark - Local Variables
+NSString *kCellIdentifier2 = @"opzioniCell";
+int extraPrimaSezione = 10;
+int altezzaNormaleSezione = 30;
 int altezzaCella;
 
 #pragma mark - Init View
