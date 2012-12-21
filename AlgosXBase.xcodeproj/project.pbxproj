@@ -28,8 +28,6 @@
 		0EA4D9281680C0F200FD3B5F /* Const.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D9211680C0F200FD3B5F /* Const.m */; };
 		0EA4D9291680C0F200FD3B5F /* Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D9231680C0F200FD3B5F /* Debug.m */; };
 		0EA4D92C1680C10000FD3B5F /* DescVal.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D92B1680C10000FD3B5F /* DescVal.m */; };
-		0EA4D9311680C15100FD3B5F /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D92E1680C15100FD3B5F /* Request.m */; };
-		0EA4D9321680C15100FD3B5F /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D92E1680C15100FD3B5F /* Request.m */; };
 		0EA4D9331680C15100FD3B5F /* UIBorderLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D9301680C15100FD3B5F /* UIBorderLabel.m */; };
 		0EA4D9341680C15100FD3B5F /* UIBorderLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA4D9301680C15100FD3B5F /* UIBorderLabel.m */; };
 /* End PBXBuildFile section */
@@ -94,8 +92,6 @@
 		0EA4D9231680C0F200FD3B5F /* Debug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Debug.m; sourceTree = "<group>"; };
 		0EA4D92A1680C10000FD3B5F /* DescVal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DescVal.h; sourceTree = "<group>"; };
 		0EA4D92B1680C10000FD3B5F /* DescVal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DescVal.m; sourceTree = "<group>"; };
-		0EA4D92D1680C15100FD3B5F /* Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Request.h; sourceTree = "<group>"; };
-		0EA4D92E1680C15100FD3B5F /* Request.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Request.m; sourceTree = "<group>"; };
 		0EA4D92F1680C15100FD3B5F /* UIBorderLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBorderLabel.h; sourceTree = "<group>"; };
 		0EA4D9301680C15100FD3B5F /* UIBorderLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIBorderLabel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -179,8 +175,6 @@
 				0EA4D9231680C0F200FD3B5F /* Debug.m */,
 				0EA4D92A1680C10000FD3B5F /* DescVal.h */,
 				0EA4D92B1680C10000FD3B5F /* DescVal.m */,
-				0EA4D92D1680C15100FD3B5F /* Request.h */,
-				0EA4D92E1680C15100FD3B5F /* Request.m */,
 				0EA4D92F1680C15100FD3B5F /* UIBorderLabel.h */,
 				0EA4D9301680C15100FD3B5F /* UIBorderLabel.m */,
 				0EA4D8E41680C08B00FD3B5F /* Supporting Files */,
@@ -316,7 +310,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EA4D8E91680C08B00FD3B5F /* AlgosXBase.m in Sources */,
-				0EA4D9311680C15100FD3B5F /* Request.m in Sources */,
 				0EA4D9331680C15100FD3B5F /* UIBorderLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -338,7 +331,6 @@
 				0EA4D9281680C0F200FD3B5F /* Const.m in Sources */,
 				0EA4D9291680C0F200FD3B5F /* Debug.m in Sources */,
 				0EA4D92C1680C10000FD3B5F /* DescVal.m in Sources */,
-				0EA4D9321680C15100FD3B5F /* Request.m in Sources */,
 				0EA4D9341680C15100FD3B5F /* UIBorderLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -485,6 +477,7 @@
 				0EA4D9051680C08B00FD3B5F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0EA4D9061680C08B00FD3B5F /* Build configuration list for PBXNativeTarget "AlgosXBaseTests" */ = {
 			isa = XCConfigurationList;
@@ -493,6 +486,7 @@
 				0EA4D9081680C08B00FD3B5F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
