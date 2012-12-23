@@ -108,7 +108,6 @@ int altezzaCellaDetail;
 //            cell.textLabel.text = descrizione;
 //            cell.detailTextLabel.text = detail;
             cellView = [self elaboraCellaWithRiga:riga descrizione:descrizione detail:detail];
-            [cell.contentView addSubview:cellView];
           
             if ([descrizione isEqualToString:valoreSelezionato]) {
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -118,8 +117,8 @@ int altezzaCellaDetail;
         } else {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifierCustom];
             cellView = [self elaboraCellaWithRiga:riga descrizione:descrizione detail:detail nomeImmagine:nomeImmagine];
-            [cell.contentView addSubview:cellView];
         }
+        [cell.contentView addSubview:cellView];
     }
     
     //--restituisce al sistema la cella configurata
